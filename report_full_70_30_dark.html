@@ -1,0 +1,478 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Suspension Mode Model Report (70/30)</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #111827;
+      --text: #e6edf3;
+      --muted: #9aa4b2;
+      --border: #1f2937;
+      --accent: #60a5fa;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 26px;
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+    }
+    h1 { margin: 0 0 6px 0; }
+    .small { color: var(--muted); font-size: 14px; }
+    code {
+      background: #0f172a;
+      color: var(--text);
+      padding: 2px 6px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: var(--panel);
+    }
+    .kpi {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    ul, ol { margin: 8px 0 0 18px; }
+    .tbl {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+      background: #0f172a;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .tbl th, .tbl td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      font-size: 14px;
+      vertical-align: top;
+    }
+    .tbl th {
+      background: #111827;
+      color: var(--text);
+      text-align: left;
+    }
+    .note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-left: 4px solid var(--accent);
+      background: #0f172a;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    img {
+      max-width: 1200px;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-top: 10px;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Suspension Mode Prediction — Dark Report</h1>
+  <p class="small">
+    This report tests the model on <b>new data</b> (30% holdout) and compares <b>Actual</b> vs <b>Predicted</b>.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h2 style="margin-top:0;">What we did</h2>
+      <ol class="small">
+        <li>Split the dataset into 70% training and 30% testing.</li>
+        <li>Train the model using the 70% part.</li>
+        <li>Predict labels for the 30% test part and compare with the actual labels.</li>
+      </ol>
+      <p class="small">Dataset: <code>/home/siddharth_s/projects/smart_adaptive_suspension/data/processed/final_ml_dataset.csv</code></p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0;">Key results</h2>
+      <ul class="small"><li>Test accuracy (30% holdout): <span class='kpi'>0.9152</span></li><li>Macro F1-score: <span class='kpi'>0.7659</span></li><li>Weighted F1-score: <span class='kpi'>0.9069</span></li></ul>
+      <p class="small">
+        Saved model: <code>/home/siddharth_s/projects/smart_adaptive_suspension/models/rf_best_mode_full_70_30.joblib</code><br/>
+        CSV report: <code>/home/siddharth_s/projects/smart_adaptive_suspension/reports/classification_report_full_70_30.csv</code><br/>
+        Examples CSV: <code>/home/siddharth_s/projects/smart_adaptive_suspension/reports/examples_actual_vs_predicted.csv</code>
+      </p>
+    </div>
+  </div>
+
+  <h2>How to read the metrics</h2>
+  <div class="note small">
+    <b>Accuracy</b> = percentage of test rows predicted correctly.<br/>
+    <b>Precision</b> = when the model predicts a class, how often it is correct.<br/>
+    <b>Recall</b> = out of all real items of a class, how many were found.<br/>
+    <b>F1-score</b> balances precision and recall; <b>support</b> is how many test samples exist for that class.
+  </div>
+
+  <h2>Classification report (per class)</h2>
+  <table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>precision</th>
+      <th>recall</th>
+      <th>f1-score</th>
+      <th>support</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>hard</th>
+      <td>0.8679</td>
+      <td>0.8364</td>
+      <td>0.8519</td>
+      <td>55.0000</td>
+    </tr>
+    <tr>
+      <th>medium</th>
+      <td>0.6923</td>
+      <td>0.3750</td>
+      <td>0.4865</td>
+      <td>24.0000</td>
+    </tr>
+    <tr>
+      <th>soft</th>
+      <td>0.9356</td>
+      <td>0.9841</td>
+      <td>0.9592</td>
+      <td>251.0000</td>
+    </tr>
+    <tr>
+      <th>accuracy</th>
+      <td>0.9152</td>
+      <td>0.9152</td>
+      <td>0.9152</td>
+      <td>0.9152</td>
+    </tr>
+    <tr>
+      <th>macro avg</th>
+      <td>0.8319</td>
+      <td>0.7318</td>
+      <td>0.7659</td>
+      <td>330.0000</td>
+    </tr>
+    <tr>
+      <th>weighted avg</th>
+      <td>0.9066</td>
+      <td>0.9152</td>
+      <td>0.9069</td>
+      <td>330.0000</td>
+    </tr>
+  </tbody>
+</table>
+
+  <h2>Actual vs Predicted (examples)</h2>
+  <p class="small">Some wrong (high-confidence) and correct examples.</p>
+  <table class="dataframe tbl">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Actual (ground truth)</th>
+      <th>Predicted</th>
+      <th>Correct?</th>
+      <th>Confidence</th>
+      <th>depth_m_est</th>
+      <th>width_m_est</th>
+      <th>speed_mps</th>
+      <th>severity_score</th>
+      <th>road_event</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>medium</td>
+      <td>soft</td>
+      <td>False</td>
+      <td>0.8425</td>
+      <td>0.180000</td>
+      <td>3.382416</td>
+      <td>6.062603</td>
+      <td>0.682749</td>
+      <td>pothole_moderate</td>
+    </tr>
+    <tr>
+      <td>medium</td>
+      <td>soft</td>
+      <td>False</td>
+      <td>0.8175</td>
+      <td>0.180000</td>
+      <td>3.189717</td>
+      <td>5.977853</td>
+      <td>0.728540</td>
+      <td>pothole_severe</td>
+    </tr>
+    <tr>
+      <td>medium</td>
+      <td>soft</td>
+      <td>False</td>
+      <td>0.8150</td>
+      <td>0.071001</td>
+      <td>1.524629</td>
+      <td>13.017574</td>
+      <td>0.315205</td>
+      <td>pothole_small</td>
+    </tr>
+    <tr>
+      <td>hard</td>
+      <td>soft</td>
+      <td>False</td>
+      <td>0.7500</td>
+      <td>0.133773</td>
+      <td>3.268535</td>
+      <td>4.633519</td>
+      <td>0.291449</td>
+      <td>pothole_small</td>
+    </tr>
+    <tr>
+      <td>medium</td>
+      <td>soft</td>
+      <td>False</td>
+      <td>0.7475</td>
+      <td>0.120708</td>
+      <td>3.228252</td>
+      <td>16.364818</td>
+      <td>0.236865</td>
+      <td>pothole_small</td>
+    </tr>
+    <tr>
+      <td>medium</td>
+      <td>soft</td>
+      <td>False</td>
+      <td>0.7300</td>
+      <td>0.098127</td>
+      <td>1.818872</td>
+      <td>13.226251</td>
+      <td>0.438518</td>
+      <td>pothole_moderate</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>hard</td>
+      <td>False</td>
+      <td>0.7225</td>
+      <td>0.159749</td>
+      <td>2.572744</td>
+      <td>5.307750</td>
+      <td>0.593478</td>
+      <td>pothole_moderate</td>
+    </tr>
+    <tr>
+      <td>hard</td>
+      <td>medium</td>
+      <td>False</td>
+      <td>0.6975</td>
+      <td>0.071358</td>
+      <td>1.486997</td>
+      <td>14.925799</td>
+      <td>0.332193</td>
+      <td>pothole_small</td>
+    </tr>
+    <tr>
+      <td>medium</td>
+      <td>soft</td>
+      <td>False</td>
+      <td>0.6950</td>
+      <td>0.180000</td>
+      <td>3.151790</td>
+      <td>5.910340</td>
+      <td>0.739002</td>
+      <td>pothole_severe</td>
+    </tr>
+    <tr>
+      <td>hard</td>
+      <td>soft</td>
+      <td>False</td>
+      <td>0.6700</td>
+      <td>0.150570</td>
+      <td>2.408981</td>
+      <td>4.308587</td>
+      <td>0.593032</td>
+      <td>pothole_moderate</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>hard</td>
+      <td>False</td>
+      <td>0.5975</td>
+      <td>0.152404</td>
+      <td>2.685550</td>
+      <td>5.311443</td>
+      <td>0.517454</td>
+      <td>pothole_moderate</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>hard</td>
+      <td>False</td>
+      <td>0.5600</td>
+      <td>0.157526</td>
+      <td>2.652592</td>
+      <td>5.347204</td>
+      <td>0.555864</td>
+      <td>pothole_moderate</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>1.0000</td>
+      <td>0.056650</td>
+      <td>1.615610</td>
+      <td>4.505367</td>
+      <td>0.159551</td>
+      <td>pothole_small</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>0.9050</td>
+      <td>0.180000</td>
+      <td>3.039380</td>
+      <td>13.083536</td>
+      <td>0.943324</td>
+      <td>pothole_severe</td>
+    </tr>
+    <tr>
+      <td>medium</td>
+      <td>medium</td>
+      <td>True</td>
+      <td>0.4075</td>
+      <td>0.180000</td>
+      <td>4.342214</td>
+      <td>14.693153</td>
+      <td>0.801497</td>
+      <td>pothole_severe</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>0.9500</td>
+      <td>0.180000</td>
+      <td>2.644820</td>
+      <td>10.562635</td>
+      <td>0.800526</td>
+      <td>pothole_severe</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>1.0000</td>
+      <td>0.012283</td>
+      <td>0.236511</td>
+      <td>15.877038</td>
+      <td>0.048235</td>
+      <td>pothole_small</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>0.9525</td>
+      <td>0.105076</td>
+      <td>1.897427</td>
+      <td>9.513831</td>
+      <td>0.463633</td>
+      <td>pothole_moderate</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>0.9975</td>
+      <td>0.011653</td>
+      <td>0.211433</td>
+      <td>5.105889</td>
+      <td>0.046429</td>
+      <td>pothole_small</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>1.0000</td>
+      <td>0.063128</td>
+      <td>1.694454</td>
+      <td>8.616325</td>
+      <td>0.194198</td>
+      <td>pothole_small</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>0.9775</td>
+      <td>0.180000</td>
+      <td>3.998724</td>
+      <td>8.128192</td>
+      <td>0.726216</td>
+      <td>pothole_severe</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>0.9675</td>
+      <td>0.177811</td>
+      <td>2.645097</td>
+      <td>12.460884</td>
+      <td>0.672924</td>
+      <td>pothole_moderate</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>1.0000</td>
+      <td>0.049360</td>
+      <td>1.248836</td>
+      <td>5.661595</td>
+      <td>0.197823</td>
+      <td>pothole_small</td>
+    </tr>
+    <tr>
+      <td>soft</td>
+      <td>soft</td>
+      <td>True</td>
+      <td>1.0000</td>
+      <td>0.014117</td>
+      <td>0.277079</td>
+      <td>14.544415</td>
+      <td>0.074385</td>
+      <td>pothole_small</td>
+    </tr>
+  </tbody>
+</table>
+
+  <h2>Actual vs Predicted (50 samples per chart)</h2>
+  <p class="small">X-axis is sample index (shuffled order; not time). Y-axis is the class label.</p>
+  <img src="actual_vs_predicted_chunk_01.png" alt="Actual vs Predicted chunk"/>
+<img src="actual_vs_predicted_chunk_02.png" alt="Actual vs Predicted chunk"/>
+<img src="actual_vs_predicted_chunk_03.png" alt="Actual vs Predicted chunk"/>
+<img src="actual_vs_predicted_chunk_04.png" alt="Actual vs Predicted chunk"/>
+<img src="actual_vs_predicted_chunk_05.png" alt="Actual vs Predicted chunk"/>
+
+  <h2>Confusion matrix</h2>
+  <img src="confusion_matrix_full_70_30_dark.png" alt="Confusion matrix"/>
+
+  <h2>Extra visuals</h2>
+  <img src="test_class_distribution_30_dark.png" alt="Test set distribution"/>
+  <img src="per_class_recall_full_70_30_dark.png" alt="Per-class recall"/>
+</body>
+</html>
